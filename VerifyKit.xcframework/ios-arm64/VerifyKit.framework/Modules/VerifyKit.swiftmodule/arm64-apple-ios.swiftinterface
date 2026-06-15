@@ -1,8 +1,11 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.10 (swiftlang-5.10.0.13 clang-1500.3.9.4)
-// swift-module-flags: -target arm64-apple-ios11.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-bare-slash-regex -module-name VerifyKit
+// swift-compiler-version: Apple Swift version 6.2.3 effective-5.10 (swiftlang-6.2.3.3.21 clang-1700.6.3.2)
+// swift-module-flags: -target arm64-apple-ios15.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -module-name VerifyKit
+// swift-module-flags-ignorable: -no-verify-emitted-module-interface -formal-cxx-interoperability-mode=off -interface-compiler-version 6.2.3
+import AuthenticationServices
 import Contacts
 import CoreTelephony
+import CryptoKit
 import Darwin
 import DeveloperToolsSupport
 import Foundation
@@ -27,7 +30,9 @@ extension VerifyKit.PKCS5 {
         get
       }
     }
+    #if compiler(>=5.3) && $NonescapableTypes
     public init(password: Swift.Array<Swift.UInt8>, salt: Swift.Array<Swift.UInt8>, iterations: Swift.Int = 4096, keyLength: Swift.Int? = nil, variant: VerifyKit.HMAC.Variant = .sha256) throws
+    #endif
     public func calculate() throws -> Swift.Array<Swift.UInt8>
   }
 }
@@ -61,13 +66,21 @@ extension VerifyKit.MetadataTerritory {
     case numberFormats
     case leadingDigits
     case availableFormats
+    #if compiler(>=5.3) && $NonescapableTypes
     public init?(rawValue: Swift.String)
+    #endif
+    #if compiler(>=5.3) && $NonescapableTypes
     public init?(stringValue: Swift.String)
+    #endif
+    #if compiler(>=5.3) && $NonescapableTypes
     public init?(intValue: Swift.Int)
+    #endif
     public typealias RawValue = Swift.String
+    #if compiler(>=5.3) && $NonescapableTypes
     public var intValue: Swift.Int? {
       get
     }
+    #endif
     public var rawValue: Swift.String {
       get
     }
@@ -86,13 +99,21 @@ extension VerifyKit.MetadataPhoneNumberFormat {
     case nationalPrefixFormattingRule
     case nationalPrefixOptionalWhenFormatting
     case domesticCarrierCodeFormattingRule
+    #if compiler(>=5.3) && $NonescapableTypes
     public init?(rawValue: Swift.String)
+    #endif
+    #if compiler(>=5.3) && $NonescapableTypes
     public init?(stringValue: Swift.String)
+    #endif
+    #if compiler(>=5.3) && $NonescapableTypes
     public init?(intValue: Swift.Int)
+    #endif
     public typealias RawValue = Swift.String
+    #if compiler(>=5.3) && $NonescapableTypes
     public var intValue: Swift.Int? {
       get
     }
+    #endif
     public var rawValue: Swift.String {
       get
     }
@@ -103,8 +124,12 @@ extension VerifyKit.MetadataPhoneNumberFormat {
   public init(from decoder: any Swift.Decoder) throws
 }
 @objc @_inheritsConvenienceInitializers open class VerifyKitNSError : Foundation.NSError {
+  #if compiler(>=5.3) && $NonescapableTypes
   @objc override dynamic public init(domain: Swift.String, code: Swift.Int, userInfo dict: [Swift.String : Any]? = nil)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
   @objc required dynamic public init?(coder: Foundation.NSCoder)
+  #endif
   @objc deinit
 }
 public enum VerifyKitError : Swift.Error {
@@ -117,7 +142,9 @@ public enum VerifyKitError : Swift.Error {
 @objc public enum VerifyKitEnvironment : Swift.Int {
   case debug = 0
   case release = 1
+  #if compiler(>=5.3) && $NonescapableTypes
   public init?(rawValue: Swift.Int)
+  #endif
   public typealias RawValue = Swift.Int
   public var rawValue: Swift.Int {
     get
@@ -152,7 +179,9 @@ public struct BlockModeOption : Swift.OptionSet {
   public typealias RawValue = Swift.Int
 }
 @objc open class VerifyKitOptions : ObjectiveC.NSObject {
+  #if compiler(>=5.3) && $NonescapableTypes
   @objc public init(environment: VerifyKit.VerifyKitEnvironment = .debug, logActive: Swift.Bool = true, deviceID: Swift.String? = "", countryCode: Swift.String? = "", phoneCode: Swift.String? = "", phoneNumber: Swift.String? = "")
+  #endif
   @objc deinit
 }
 @objc public protocol VerifyKitObjCDelegate {
@@ -164,10 +193,14 @@ public protocol VerifyKitDelegate {
   func didFail(with error: VerifyKit.VerifyKitError)
 }
 @objc public protocol VerifyKitObjCViewController {
+  #if compiler(>=5.3) && $NonescapableTypes
   @objc weak var kitObjCDelegate: (any VerifyKit.VerifyKitObjCDelegate)? { get set }
+  #endif
 }
 public protocol VerifyKitViewController : UIKit.UIViewController {
+  #if compiler(>=5.3) && $NonescapableTypes
   var kitDelegate: (any VerifyKit.VerifyKitDelegate)? { get set }
+  #endif
 }
 final public class SHA2 {
   public enum Variant : Swift.RawRepresentable {
@@ -182,7 +215,9 @@ final public class SHA2 {
     public var rawValue: VerifyKit.SHA2.Variant.RawValue {
       get
     }
+    #if compiler(>=5.3) && $NonescapableTypes
     public init?(rawValue: VerifyKit.SHA2.Variant.RawValue)
+    #endif
   }
   public init(variant: VerifyKit.SHA2.Variant)
   final public func calculate(for bytes: Swift.Array<Swift.UInt8>) -> Swift.Array<Swift.UInt8>
@@ -213,8 +248,8 @@ public class Reachability {
     public var description: Swift.String {
       get
     }
-    public func hash(into hasher: inout Swift.Hasher)
     public static func == (a: VerifyKit.Reachability.NetworkStatus, b: VerifyKit.Reachability.NetworkStatus) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
     public var hashValue: Swift.Int {
       get
     }
@@ -249,9 +284,15 @@ public class Reachability {
   public var connection: VerifyKit.Reachability.Connection {
     get
   }
+  #if compiler(>=5.3) && $NonescapableTypes
   required public init(reachabilityRef: SystemConfiguration.SCNetworkReachability, queueQoS: Dispatch.DispatchQoS = .default, targetQueue: Dispatch.DispatchQueue? = nil, notificationQueue: Dispatch.DispatchQueue? = .main)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
   convenience public init(hostname: Swift.String, queueQoS: Dispatch.DispatchQoS = .default, targetQueue: Dispatch.DispatchQueue? = nil, notificationQueue: Dispatch.DispatchQueue? = .main) throws
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
   convenience public init(queueQoS: Dispatch.DispatchQoS = .default, targetQueue: Dispatch.DispatchQueue? = nil, notificationQueue: Dispatch.DispatchQueue? = .main) throws
+  #endif
   @objc deinit
 }
 extension VerifyKit.Reachability {
@@ -278,7 +319,7 @@ public struct ECB : VerifyKit.BlockMode {
   public init()
   public func worker(blockSize: Swift.Int, cipherOperation: @escaping VerifyKit.CipherOperationOnBlock, encryptionOperation: @escaping VerifyKit.CipherOperationOnBlock) throws -> any VerifyKit.CipherModeWorker
 }
-public typealias MetadataCallback = (() throws -> Foundation.Data?)
+public typealias MetadataCallback = () throws -> Foundation.Data?
 final public class PhoneNumberKit {
   public init(metadataCallback: @escaping VerifyKit.MetadataCallback = PhoneNumberKit.defaultMetadataCallback)
   final public func parse(_ numberString: Swift.String, withRegion region: Swift.String = PhoneNumberKit.defaultRegionCode(), ignoreType: Swift.Bool = false) throws -> VerifyKit.PhoneNumber
@@ -286,18 +327,38 @@ final public class PhoneNumberKit {
   final public func isValidPhoneNumber(_ numberString: Swift.String, withRegion region: Swift.String = PhoneNumberKit.defaultRegionCode(), ignoreType: Swift.Bool = false) -> Swift.Bool
   final public func format(_ phoneNumber: VerifyKit.PhoneNumber, toType formatType: VerifyKit.PhoneNumberFormat, withPrefix prefix: Swift.Bool = true) -> Swift.String
   final public func allCountries() -> [Swift.String]
+  #if compiler(>=5.3) && $NonescapableTypes
   final public func countries(withCode countryCode: Swift.UInt64) -> [Swift.String]?
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
   final public func mainCountry(forCode countryCode: Swift.UInt64) -> Swift.String?
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
   final public func countryCode(for country: Swift.String) -> Swift.UInt64?
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
   final public func leadingDigits(for country: Swift.String) -> Swift.String?
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
   final public func getRegionCode(of phoneNumber: VerifyKit.PhoneNumber) -> Swift.String?
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
   final public func getExampleNumber(forCountry countryCode: Swift.String, ofType type: VerifyKit.PhoneNumberType = .mobile) -> VerifyKit.PhoneNumber?
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
   final public func getFormattedExampleNumber(forCountry countryCode: Swift.String, ofType type: VerifyKit.PhoneNumberType = .mobile, withFormat format: VerifyKit.PhoneNumberFormat = .international, withPrefix prefix: Swift.Bool = true) -> Swift.String?
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
   final public func metadata(for country: Swift.String) -> VerifyKit.MetadataTerritory?
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
   final public func metadata(forCode countryCode: Swift.UInt64) -> [VerifyKit.MetadataTerritory]?
+  #endif
   final public func possiblePhoneNumberLengths(forCountry country: Swift.String, phoneNumberType: VerifyKit.PhoneNumberType, lengthType: VerifyKit.PossibleLengthType) -> [Swift.Int]
   final public class func defaultRegionCode() -> Swift.String
+  #if compiler(>=5.3) && $NonescapableTypes
   public static func defaultMetadataCallback() throws -> Foundation.Data?
+  #endif
   @objc deinit
 }
 extension VerifyKit.PhoneNumberKit {
@@ -325,21 +386,31 @@ extension Swift.Array where Element == Swift.UInt8 {
   public func sha512() -> [Element]
   public func sha2(_ variant: VerifyKit.SHA2.Variant) -> [Element]
   public func sha3(_ variant: VerifyKit.SHA3.Variant) -> [Element]
+  #if compiler(>=5.3) && $NonescapableTypes
   public func crc32(seed: Swift.UInt32? = nil, reflect: Swift.Bool = true) -> Swift.UInt32
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
   public func crc32c(seed: Swift.UInt32? = nil, reflect: Swift.Bool = true) -> Swift.UInt32
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
   public func crc16(seed: Swift.UInt16? = nil) -> Swift.UInt16
+  #endif
   public func encrypt(cipher: any VerifyKit.Cipher) throws -> [Element]
   public func decrypt(cipher: any VerifyKit.Cipher) throws -> [Element]
   public func authenticate<A>(with authenticator: A) throws -> [Element] where A : VerifyKit.Authenticator
 }
 public protocol PaddingProtocol {
   func add(to: Swift.Array<Swift.UInt8>, blockSize: Swift.Int) -> Swift.Array<Swift.UInt8>
+  #if compiler(>=5.3) && $NonescapableTypes
   func remove(from: Swift.Array<Swift.UInt8>, blockSize: Swift.Int?) -> Swift.Array<Swift.UInt8>
+  #endif
 }
 public enum Padding : VerifyKit.PaddingProtocol {
   case noPadding, zeroPadding, pkcs7, pkcs5, iso78164
   public func add(to: Swift.Array<Swift.UInt8>, blockSize: Swift.Int) -> Swift.Array<Swift.UInt8>
+  #if compiler(>=5.3) && $NonescapableTypes
   public func remove(from: Swift.Array<Swift.UInt8>, blockSize: Swift.Int?) -> Swift.Array<Swift.UInt8>
+  #endif
   public static func == (a: VerifyKit.Padding, b: VerifyKit.Padding) -> Swift.Bool
   public func hash(into hasher: inout Swift.Hasher)
   public var hashValue: Swift.Int {
@@ -400,7 +471,9 @@ public struct HKDF {
       get
     }
   }
+  #if compiler(>=5.3) && $NonescapableTypes
   public init(password: Swift.Array<Swift.UInt8>, salt: Swift.Array<Swift.UInt8>? = nil, info: Swift.Array<Swift.UInt8>? = nil, keyLength: Swift.Int? = nil, variant: VerifyKit.HMAC.Variant = .sha256) throws
+  #endif
   public func calculate() throws -> Swift.Array<Swift.UInt8>
 }
 extension VerifyKit.PKCS5 {
@@ -422,7 +495,9 @@ extension VerifyKit.PKCS5 {
         get
       }
     }
+    #if compiler(>=5.3) && $NonescapableTypes
     public init(password: Swift.Array<Swift.UInt8>, salt: Swift.Array<Swift.UInt8>, variant: VerifyKit.PKCS5.PBKDF1.Variant = .sha1, iterations: Swift.Int = 4096, keyLength: Swift.Int? = nil) throws
+    #endif
     public func calculate() -> Swift.Array<Swift.UInt8>
   }
 }
@@ -479,23 +554,29 @@ extension VerifyKit.PhoneNumber : Swift.Codable {
 public protocol CountryCodePickerDelegate : AnyObject {
   func countryCodePickerViewControllerDidPickCountry(_ country: VerifyKit.CountryCodePickerViewController.Country)
 }
-@objc @_hasMissingDesignatedInitializers @_Concurrency.MainActor(unsafe) public class CountryCodePickerViewController : UIKit.UITableViewController {
-  @_Concurrency.MainActor(unsafe) final public let phoneNumberKit: VerifyKit.PhoneNumberKit
-  @_Concurrency.MainActor(unsafe) final public let options: VerifyKit.CountryCodePickerOptions
-  @_Concurrency.MainActor(unsafe) weak public var delegate: (any VerifyKit.CountryCodePickerDelegate)?
-  @_Concurrency.MainActor(unsafe) public init(phoneNumberKit: VerifyKit.PhoneNumberKit, options: VerifyKit.CountryCodePickerOptions?, commonCountryCodes: [Swift.String] = PhoneNumberKit.CountryCodePicker.commonCountryCodes)
-  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewWillAppear(_ animated: Swift.Bool)
-  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewWillDisappear(_ animated: Swift.Bool)
-  @_Concurrency.MainActor(unsafe) @objc override dynamic public func numberOfSections(in tableView: UIKit.UITableView) -> Swift.Int
-  @_Concurrency.MainActor(unsafe) @objc override dynamic public func tableView(_ tableView: UIKit.UITableView, numberOfRowsInSection section: Swift.Int) -> Swift.Int
-  @_Concurrency.MainActor(unsafe) @objc override dynamic public func tableView(_ tableView: UIKit.UITableView, cellForRowAt indexPath: Foundation.IndexPath) -> UIKit.UITableViewCell
-  @_Concurrency.MainActor(unsafe) @objc override dynamic public func tableView(_ tableView: UIKit.UITableView, titleForHeaderInSection section: Swift.Int) -> Swift.String?
-  @_Concurrency.MainActor(unsafe) @objc override dynamic public func sectionIndexTitles(for tableView: UIKit.UITableView) -> [Swift.String]?
-  @_Concurrency.MainActor(unsafe) @objc override dynamic public func tableView(_ tableView: UIKit.UITableView, didSelectRowAt indexPath: Foundation.IndexPath)
+@objc @_hasMissingDesignatedInitializers @_Concurrency.MainActor @preconcurrency public class CountryCodePickerViewController : UIKit.UITableViewController {
+  @_Concurrency.MainActor @preconcurrency final public let phoneNumberKit: VerifyKit.PhoneNumberKit
+  @_Concurrency.MainActor @preconcurrency final public let options: VerifyKit.CountryCodePickerOptions
+  @_Concurrency.MainActor @preconcurrency weak public var delegate: (any VerifyKit.CountryCodePickerDelegate)?
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @preconcurrency public init(phoneNumberKit: VerifyKit.PhoneNumberKit, options: VerifyKit.CountryCodePickerOptions?, commonCountryCodes: [Swift.String] = PhoneNumberKit.CountryCodePicker.commonCountryCodes)
+  #endif
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func viewWillAppear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func viewWillDisappear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func numberOfSections(in tableView: UIKit.UITableView) -> Swift.Int
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func tableView(_ tableView: UIKit.UITableView, numberOfRowsInSection section: Swift.Int) -> Swift.Int
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func tableView(_ tableView: UIKit.UITableView, cellForRowAt indexPath: Foundation.IndexPath) -> UIKit.UITableViewCell
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func tableView(_ tableView: UIKit.UITableView, titleForHeaderInSection section: Swift.Int) -> Swift.String?
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func sectionIndexTitles(for tableView: UIKit.UITableView) -> [Swift.String]?
+  #endif
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func tableView(_ tableView: UIKit.UITableView, didSelectRowAt indexPath: Foundation.IndexPath)
   @objc deinit
 }
 extension VerifyKit.CountryCodePickerViewController : UIKit.UISearchResultsUpdating {
-  @_Concurrency.MainActor(unsafe) @objc dynamic public func updateSearchResults(for searchController: UIKit.UISearchController)
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func updateSearchResults(for searchController: UIKit.UISearchController)
 }
 extension VerifyKit.CountryCodePickerViewController {
   public struct Country {
@@ -503,9 +584,11 @@ extension VerifyKit.CountryCodePickerViewController {
     public var flag: Swift.String
     public var name: Swift.String
     public var prefix: Swift.String
+    #if compiler(>=5.3) && $NonescapableTypes
     public init?(for countryCode: Swift.String, with phoneNumberKit: VerifyKit.PhoneNumberKit)
+    #endif
   }
-  @objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @_Concurrency.MainActor(unsafe) public class Cell : UIKit.UITableViewCell {
+  @objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @_Concurrency.MainActor @preconcurrency public class Cell : UIKit.UITableViewCell {
     @objc deinit
   }
 }
@@ -528,11 +611,19 @@ extension Swift.String {
   public func sha384() -> Swift.String
   public func sha512() -> Swift.String
   public func sha3(_ variant: VerifyKit.SHA3.Variant) -> Swift.String
+  #if compiler(>=5.3) && $NonescapableTypes
   public func crc32(seed: Swift.UInt32? = nil, reflect: Swift.Bool = true) -> Swift.String
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
   public func crc32c(seed: Swift.UInt32? = nil, reflect: Swift.Bool = true) -> Swift.String
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
   public func crc16(seed: Swift.UInt16? = nil) -> Swift.String
+  #endif
   public func encrypt(cipher: any VerifyKit.Cipher) throws -> Swift.String
+  #if compiler(>=5.3) && $NonescapableTypes
   public func encryptToBase64(cipher: any VerifyKit.Cipher) throws -> Swift.String?
+  #endif
   public func authenticate<A>(with authenticator: A) throws -> Swift.String where A : VerifyKit.Authenticator
 }
 @_inheritsConvenienceInitializers final public class CBCMAC : VerifyKit.CMAC {
@@ -575,9 +666,11 @@ extension VerifyKit.PhoneNumber : Swift.Hashable {
 extension VerifyKit.PhoneNumber {
   public static func notPhoneNumber() -> VerifyKit.PhoneNumber
   public func notParsed() -> Swift.Bool
+  #if compiler(>=5.3) && $NonescapableTypes
   public var url: Foundation.URL? {
     get
   }
+  #endif
 }
 extension VerifyKit.PhoneNumber {
   @available(*, unavailable, message: "use PhoneNumberKit instead to produce PhoneNumbers")
@@ -608,7 +701,9 @@ final public class Rabbit {
     get
   }
   convenience public init(key: Swift.Array<Swift.UInt8>) throws
+  #if compiler(>=5.3) && $NonescapableTypes
   public init(key: Swift.Array<Swift.UInt8>, iv: Swift.Array<Swift.UInt8>?) throws
+  #endif
   @objc deinit
 }
 extension VerifyKit.Rabbit : VerifyKit.Cipher {
@@ -683,7 +778,9 @@ public struct PCBC : VerifyKit.BlockMode {
 }
 public struct CountryCodePickerOptions {
   public init()
+  #if compiler(>=5.3) && $NonescapableTypes
   public init(backgroundColor: UIKit.UIColor? = nil, separatorColor: UIKit.UIColor? = nil, textLabelColor: UIKit.UIColor? = nil, textLabelFont: UIKit.UIFont? = nil, detailTextLabelColor: UIKit.UIColor? = nil, detailTextLabelFont: UIKit.UIFont? = nil, tintColor: UIKit.UIColor? = nil, cellBackgroundColor: UIKit.UIColor? = nil, cellBackgroundColorSelection: UIKit.UIColor? = nil)
+  #endif
   public var backgroundColor: UIKit.UIColor?
   public var separatorColor: UIKit.UIColor?
   public var textLabelColor: UIKit.UIColor?
@@ -733,19 +830,31 @@ final public class Scrypt {
   public init(options: VerifyKit.VerifyKitOptions)
   final public func viewControllerForLogin() -> any VerifyKit.VerifyKitViewController
   @objc final public func viewControllerForLogin_objC() -> any UIKit.UIViewController & VerifyKit.VerifyKitObjCViewController
+  #if compiler(>=5.3) && $NonescapableTypes
   @objc public static func checkInterruptedSession(completion: @escaping (_ sessionCode: Swift.String?) -> Swift.Void)
+  #endif
+  @objc public static func handle(openURL url: Foundation.URL) -> Swift.Bool
+  @objc public static func handle(continue userActivity: Foundation.NSUserActivity) -> Swift.Bool
   @objc deinit
 }
 @_hasMissingDesignatedInitializers final public class Checksum {
   @objc deinit
 }
 extension VerifyKit.Checksum {
+  #if compiler(>=5.3) && $NonescapableTypes
   public static func crc32(_ message: Swift.Array<Swift.UInt8>, seed: Swift.UInt32? = nil, reflect: Swift.Bool = true) -> Swift.UInt32
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
   public static func crc32c(_ message: Swift.Array<Swift.UInt8>, seed: Swift.UInt32? = nil, reflect: Swift.Bool = true) -> Swift.UInt32
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
   public static func crc16(_ message: Swift.Array<Swift.UInt8>, seed: Swift.UInt16? = nil) -> Swift.UInt16
+  #endif
 }
 extension Swift.Array where Element == Swift.UInt8 {
+  #if compiler(>=5.3) && $NonescapableTypes
   public func toBase64() -> Swift.String?
+  #endif
   public init(base64: Swift.String)
 }
 public protocol Authenticator {
@@ -797,7 +906,9 @@ extension VerifyKit.AES {
 public enum Bit : Swift.Int {
   case zero
   case one
+  #if compiler(>=5.3) && $NonescapableTypes
   public init?(rawValue: Swift.Int)
+  #endif
   public typealias RawValue = Swift.Int
   public var rawValue: Swift.Int {
     get
@@ -836,13 +947,21 @@ public struct CFB : VerifyKit.BlockMode {
     @objc get
   }
   public init(phoneNumberKit pnk: VerifyKit.PhoneNumberKit = PhoneNumberKit(), defaultRegion: Swift.String = PhoneNumberKit.defaultRegionCode(), withPrefix: Swift.Bool = true)
+  #if compiler(>=5.3) && $NonescapableTypes
   @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  #endif
   @objc deinit
 }
 extension VerifyKit.PhoneNumberFormatter {
+  #if compiler(>=5.3) && $NonescapableTypes
   @objc override dynamic open func string(for obj: Any?) -> Swift.String?
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
   @objc override dynamic open func getObjectValue(_ obj: Swift.AutoreleasingUnsafeMutablePointer<Swift.AnyObject?>?, for string: Swift.String, errorDescription error: Swift.AutoreleasingUnsafeMutablePointer<Foundation.NSString?>?) -> Swift.Bool
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
   @objc override dynamic open func isPartialStringValid(_ partialStringPtr: Swift.AutoreleasingUnsafeMutablePointer<Foundation.NSString>, proposedSelectedRange proposedSelRangePtr: Foundation.NSRangePointer?, originalString origString: Swift.String, originalSelectedRange origSelRange: Foundation.NSRange, errorDescription error: Swift.AutoreleasingUnsafeMutablePointer<Foundation.NSString?>?) -> Swift.Bool
+  #endif
 }
 final public class AES {
   public enum Error : Swift.Error {
@@ -857,7 +976,9 @@ final public class AES {
   }
   public enum Variant : Swift.Int {
     case aes128, aes192, aes256
+    #if compiler(>=5.3) && $NonescapableTypes
     public init?(rawValue: Swift.Int)
+    #endif
     public typealias RawValue = Swift.Int
     public var rawValue: Swift.Int {
       get
@@ -941,8 +1062,12 @@ final public class GCM : VerifyKit.BlockMode {
     }
   }
   final public var authenticationTag: Swift.Array<Swift.UInt8>?
+  #if compiler(>=5.3) && $NonescapableTypes
   public init(iv: Swift.Array<Swift.UInt8>, additionalAuthenticatedData: Swift.Array<Swift.UInt8>? = nil, tagLength: Swift.Int = 16, mode: VerifyKit.GCM.Mode = .detached)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
   convenience public init(iv: Swift.Array<Swift.UInt8>, authenticationTag: Swift.Array<Swift.UInt8>, additionalAuthenticatedData: Swift.Array<Swift.UInt8>? = nil, mode: VerifyKit.GCM.Mode = .detached)
+  #endif
   final public func worker(blockSize: Swift.Int, cipherOperation: @escaping VerifyKit.CipherOperationOnBlock, encryptionOperation: @escaping VerifyKit.CipherOperationOnBlock) throws -> any VerifyKit.CipherModeWorker
   @objc deinit
 }
@@ -969,8 +1094,12 @@ public struct CCM {
   }
   public let options: VerifyKit.BlockModeOption
   public var authenticationTag: Swift.Array<Swift.UInt8>?
+  #if compiler(>=5.3) && $NonescapableTypes
   public init(iv: Swift.Array<Swift.UInt8>, tagLength: Swift.Int, messageLength: Swift.Int, additionalAuthenticatedData: Swift.Array<Swift.UInt8>? = nil)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
   public init(iv: Swift.Array<Swift.UInt8>, tagLength: Swift.Int, messageLength: Swift.Int, authenticationTag: Swift.Array<Swift.UInt8>, additionalAuthenticatedData: Swift.Array<Swift.UInt8>? = nil)
+  #endif
   public func worker(blockSize: Swift.Int, cipherOperation: @escaping VerifyKit.CipherOperationOnBlock, encryptionOperation: @escaping VerifyKit.CipherOperationOnBlock) throws -> any VerifyKit.CipherModeWorker
 }
 final public class SHA3 {
@@ -1016,10 +1145,42 @@ final public class OCB : VerifyKit.BlockMode {
     }
   }
   final public var authenticationTag: Swift.Array<Swift.UInt8>?
+  #if compiler(>=5.3) && $NonescapableTypes
   public init(nonce N: Swift.Array<Swift.UInt8>, additionalAuthenticatedData: Swift.Array<Swift.UInt8>? = nil, tagLength: Swift.Int = 16, mode: VerifyKit.OCB.Mode = .detached)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
   convenience public init(nonce N: Swift.Array<Swift.UInt8>, authenticationTag: Swift.Array<Swift.UInt8>, additionalAuthenticatedData: Swift.Array<Swift.UInt8>? = nil, mode: VerifyKit.OCB.Mode = .detached)
+  #endif
   final public func worker(blockSize: Swift.Int, cipherOperation: @escaping VerifyKit.CipherOperationOnBlock, encryptionOperation: @escaping VerifyKit.CipherOperationOnBlock) throws -> any VerifyKit.CipherModeWorker
   @objc deinit
+}
+public struct LoginData : Swift.Sendable {
+  public let idToken: Swift.String
+  public init(idToken: Swift.String)
+}
+public enum TelegramLoginError : Swift.Error, Foundation.LocalizedError, Swift.Sendable, Swift.Equatable {
+  case notConfigured
+  case noAuthorizationCode
+  case serverError(statusCode: Swift.Int)
+  case requestFailed(Swift.String)
+  case cancelled
+  #if compiler(>=5.3) && $NonescapableTypes
+  public var errorDescription: Swift.String? {
+    get
+  }
+  #endif
+  public static func == (a: VerifyKit.TelegramLoginError, b: VerifyKit.TelegramLoginError) -> Swift.Bool
+}
+public enum TelegramLogin {
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor public static func configure(clientId: Swift.String, redirectUri: Swift.String, scopes: [Swift.String], fallbackScheme: Swift.String? = nil)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor public static func login(completion: @escaping @Sendable (Swift.Result<VerifyKit.LoginData, any Swift.Error>) -> Swift.Void)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor public static func handle(_ url: Foundation.URL, completion: (@Sendable (Swift.Result<VerifyKit.LoginData, any Swift.Error>) -> Swift.Void)? = nil)
+  #endif
 }
 extension Foundation.Data {
   public func checksum() -> Swift.UInt16
@@ -1030,9 +1191,15 @@ extension Foundation.Data {
   public func sha384() -> Foundation.Data
   public func sha512() -> Foundation.Data
   public func sha3(_ variant: VerifyKit.SHA3.Variant) -> Foundation.Data
+  #if compiler(>=5.3) && $NonescapableTypes
   public func crc32(seed: Swift.UInt32? = nil, reflect: Swift.Bool = true) -> Foundation.Data
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
   public func crc32c(seed: Swift.UInt32? = nil, reflect: Swift.Bool = true) -> Foundation.Data
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
   public func crc16(seed: Swift.UInt16? = nil) -> Foundation.Data
+  #endif
   public func encrypt(cipher: any VerifyKit.Cipher) throws -> Foundation.Data
   public func decrypt(cipher: any VerifyKit.Cipher) throws -> Foundation.Data
   public func authenticate(with authenticator: any VerifyKit.Authenticator) throws -> Foundation.Data
@@ -1045,7 +1212,9 @@ extension Foundation.Data {
   public func toHexString() -> Swift.String
 }
 @_hasMissingDesignatedInitializers final public class PartialFormatter {
+  #if compiler(>=5.3) && $NonescapableTypes
   convenience public init(phoneNumberKit: VerifyKit.PhoneNumberKit = PhoneNumberKit(), defaultRegion: Swift.String = PhoneNumberKit.defaultRegionCode(), withPrefix: Swift.Bool = true, maxDigits: Swift.Int? = nil, ignoreIntlNumbers: Swift.Bool = false)
+  #endif
   final public var defaultRegion: Swift.String {
     get
     set
@@ -1115,9 +1284,11 @@ public enum PhoneNumberError : Swift.Error, Swift.Equatable {
   public static func == (a: VerifyKit.PhoneNumberError, b: VerifyKit.PhoneNumberError) -> Swift.Bool
 }
 extension VerifyKit.PhoneNumberError : Foundation.LocalizedError {
+  #if compiler(>=5.3) && $NonescapableTypes
   public var errorDescription: Swift.String? {
     get
   }
+  #endif
 }
 public enum PhoneNumberFormat {
   case e164
@@ -1143,7 +1314,9 @@ public enum PhoneNumberType : Swift.String, Swift.Codable {
   case uan
   case unknown
   case notParsed
+  #if compiler(>=5.3) && $NonescapableTypes
   public init?(rawValue: Swift.String)
+  #endif
   public typealias RawValue = Swift.String
   public var rawValue: Swift.String {
     get
@@ -1152,7 +1325,9 @@ public enum PhoneNumberType : Swift.String, Swift.Codable {
 public enum PossibleLengthType : Swift.String, Swift.Codable {
   case national
   case localOnly
+  #if compiler(>=5.3) && $NonescapableTypes
   public init?(rawValue: Swift.String)
+  #endif
   public typealias RawValue = Swift.String
   public var rawValue: Swift.String {
     get
@@ -1166,99 +1341,107 @@ extension Swift.UInt8 {
   public func bits() -> [VerifyKit.Bit]
   public func bits() -> Swift.String
 }
-@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) open class PhoneNumberTextField : UIKit.UITextField, UIKit.UITextFieldDelegate {
-  @_Concurrency.MainActor(unsafe) final public let phoneNumberKit: VerifyKit.PhoneNumberKit
-  @_Concurrency.MainActor(unsafe) public var flagButton: UIKit.UIButton {
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor @preconcurrency open class PhoneNumberTextField : UIKit.UITextField, UIKit.UITextFieldDelegate {
+  @_Concurrency.MainActor @preconcurrency final public let phoneNumberKit: VerifyKit.PhoneNumberKit
+  @_Concurrency.MainActor @preconcurrency public var flagButton: UIKit.UIButton {
     get
     set
   }
-  @_Concurrency.MainActor(unsafe) @objc override dynamic open var text: Swift.String? {
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open var text: Swift.String? {
     @objc get
     @objc set
   }
-  @_Concurrency.MainActor(unsafe) open func setTextUnformatted(newValue: Swift.String?)
-  @_Concurrency.MainActor(unsafe) open var defaultRegion: Swift.String {
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @preconcurrency open func setTextUnformatted(newValue: Swift.String?)
+  #endif
+  @_Concurrency.MainActor @preconcurrency open var defaultRegion: Swift.String {
     get
     @available(*, deprecated, message: "    The setter of defaultRegion is deprecated,\n    please override defaultRegion in a subclass instead.")
     set
   }
-  @_Concurrency.MainActor(unsafe) public var withPrefix: Swift.Bool {
+  @_Concurrency.MainActor @preconcurrency public var withPrefix: Swift.Bool {
     get
     set
   }
-  @_Concurrency.MainActor(unsafe) public var withFlag: Swift.Bool {
+  @_Concurrency.MainActor @preconcurrency public var withFlag: Swift.Bool {
     get
     set
   }
-  @_Concurrency.MainActor(unsafe) public var withExamplePlaceholder: Swift.Bool {
+  @_Concurrency.MainActor @preconcurrency public var withExamplePlaceholder: Swift.Bool {
     get
     set
   }
-  @_Concurrency.MainActor(unsafe) public var countryCodePlaceholderColor: UIKit.UIColor {
+  @_Concurrency.MainActor @preconcurrency public var countryCodePlaceholderColor: UIKit.UIColor {
     get
     set
   }
-  @_Concurrency.MainActor(unsafe) public var numberPlaceholderColor: UIKit.UIColor {
+  @_Concurrency.MainActor @preconcurrency public var numberPlaceholderColor: UIKit.UIColor {
     get
     set
   }
-  @_Concurrency.MainActor(unsafe) public var withDefaultPickerUI: Swift.Bool {
+  @_Concurrency.MainActor @preconcurrency public var withDefaultPickerUI: Swift.Bool {
     get
     set
   }
-  @_Concurrency.MainActor(unsafe) public var withDefaultPickerUIOptions: VerifyKit.CountryCodePickerOptions
-  @_Concurrency.MainActor(unsafe) public var modalPresentationStyle: UIKit.UIModalPresentationStyle?
-  @_Concurrency.MainActor(unsafe) public var isPartialFormatterEnabled: Swift.Bool
-  @_Concurrency.MainActor(unsafe) public var maxDigits: Swift.Int? {
+  @_Concurrency.MainActor @preconcurrency public var withDefaultPickerUIOptions: VerifyKit.CountryCodePickerOptions
+  @_Concurrency.MainActor @preconcurrency public var modalPresentationStyle: UIKit.UIModalPresentationStyle?
+  @_Concurrency.MainActor @preconcurrency public var isPartialFormatterEnabled: Swift.Bool
+  @_Concurrency.MainActor @preconcurrency public var maxDigits: Swift.Int? {
     get
     set
   }
-  @_Concurrency.MainActor(unsafe) public var partialFormatter: VerifyKit.PartialFormatter {
+  @_Concurrency.MainActor @preconcurrency public var partialFormatter: VerifyKit.PartialFormatter {
     get
   }
-  @_Concurrency.MainActor(unsafe) @objc override dynamic open var delegate: (any UIKit.UITextFieldDelegate)? {
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open var delegate: (any UIKit.UITextFieldDelegate)? {
     @objc get
     @objc set
   }
-  @_Concurrency.MainActor(unsafe) public var currentRegion: Swift.String {
+  #endif
+  @_Concurrency.MainActor @preconcurrency public var currentRegion: Swift.String {
     get
   }
-  @_Concurrency.MainActor(unsafe) public var nationalNumber: Swift.String {
+  @_Concurrency.MainActor @preconcurrency public var nationalNumber: Swift.String {
     get
   }
-  @_Concurrency.MainActor(unsafe) public var isValidNumber: Swift.Bool {
+  @_Concurrency.MainActor @preconcurrency public var isValidNumber: Swift.Bool {
     get
   }
-  @_Concurrency.MainActor(unsafe) public var phoneNumber: VerifyKit.PhoneNumber? {
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @preconcurrency public var phoneNumber: VerifyKit.PhoneNumber? {
     get
   }
-  @_Concurrency.MainActor(unsafe) @objc override dynamic open func layoutSubviews()
-  @_Concurrency.MainActor(unsafe) convenience public init(withPhoneNumberKit phoneNumberKit: VerifyKit.PhoneNumberKit)
-  @_Concurrency.MainActor(unsafe) public init(frame: CoreFoundation.CGRect, phoneNumberKit: VerifyKit.PhoneNumberKit)
-  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect)
-  @_Concurrency.MainActor(unsafe) public init(insets: UIKit.UIEdgeInsets, clearButtonPadding: CoreFoundation.CGFloat)
-  @_Concurrency.MainActor(unsafe) @objc required dynamic public init(coder aDecoder: Foundation.NSCoder)
-  @_Concurrency.MainActor(unsafe) open func updateFlag()
-  @_Concurrency.MainActor(unsafe) open func updatePlaceholder()
-  @_Concurrency.MainActor(unsafe) @objc open func textField(_ textField: UIKit.UITextField, shouldChangeCharactersIn range: Foundation.NSRange, replacementString string: Swift.String) -> Swift.Bool
-  @_Concurrency.MainActor(unsafe) @objc open func textFieldShouldBeginEditing(_ textField: UIKit.UITextField) -> Swift.Bool
-  @_Concurrency.MainActor(unsafe) @objc open func textFieldDidBeginEditing(_ textField: UIKit.UITextField)
-  @_Concurrency.MainActor(unsafe) @objc open func textFieldShouldEndEditing(_ textField: UIKit.UITextField) -> Swift.Bool
-  @_Concurrency.MainActor(unsafe) @objc open func textFieldDidEndEditing(_ textField: UIKit.UITextField)
-  @_Concurrency.MainActor(unsafe) @objc open func textFieldDidEndEditing(_ textField: UIKit.UITextField, reason: UIKit.UITextField.DidEndEditingReason)
-  @_Concurrency.MainActor(unsafe) @objc open func textFieldShouldClear(_ textField: UIKit.UITextField) -> Swift.Bool
-  @_Concurrency.MainActor(unsafe) @objc open func textFieldShouldReturn(_ textField: UIKit.UITextField) -> Swift.Bool
+  #endif
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func layoutSubviews()
+  @_Concurrency.MainActor @preconcurrency convenience public init(withPhoneNumberKit phoneNumberKit: VerifyKit.PhoneNumberKit)
+  @_Concurrency.MainActor @preconcurrency public init(frame: CoreFoundation.CGRect, phoneNumberKit: VerifyKit.PhoneNumberKit)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor @preconcurrency public init(insets: UIKit.UIEdgeInsets, clearButtonPadding: CoreFoundation.CGFloat)
+  @_Concurrency.MainActor @preconcurrency @objc required dynamic public init(coder aDecoder: Foundation.NSCoder)
+  @_Concurrency.MainActor @preconcurrency open func updateFlag()
+  @_Concurrency.MainActor @preconcurrency open func updatePlaceholder()
+  @_Concurrency.MainActor @preconcurrency @objc open func textField(_ textField: UIKit.UITextField, shouldChangeCharactersIn range: Foundation.NSRange, replacementString string: Swift.String) -> Swift.Bool
+  @_Concurrency.MainActor @preconcurrency @objc open func textFieldShouldBeginEditing(_ textField: UIKit.UITextField) -> Swift.Bool
+  @_Concurrency.MainActor @preconcurrency @objc open func textFieldDidBeginEditing(_ textField: UIKit.UITextField)
+  @_Concurrency.MainActor @preconcurrency @objc open func textFieldShouldEndEditing(_ textField: UIKit.UITextField) -> Swift.Bool
+  @_Concurrency.MainActor @preconcurrency @objc open func textFieldDidEndEditing(_ textField: UIKit.UITextField)
+  @_Concurrency.MainActor @preconcurrency @objc open func textFieldDidEndEditing(_ textField: UIKit.UITextField, reason: UIKit.UITextField.DidEndEditingReason)
+  @_Concurrency.MainActor @preconcurrency @objc open func textFieldShouldClear(_ textField: UIKit.UITextField) -> Swift.Bool
+  @_Concurrency.MainActor @preconcurrency @objc open func textFieldShouldReturn(_ textField: UIKit.UITextField) -> Swift.Bool
   @available(iOS 13.0, tvOS 13.0, *)
-  @_Concurrency.MainActor(unsafe) @objc open func textFieldDidChangeSelection(_ textField: UIKit.UITextField)
+  @_Concurrency.MainActor @preconcurrency @objc open func textFieldDidChangeSelection(_ textField: UIKit.UITextField)
   @objc deinit
 }
 extension VerifyKit.PhoneNumberTextField : VerifyKit.CountryCodePickerDelegate {
-  @_Concurrency.MainActor(unsafe) public func countryCodePickerViewControllerDidPickCountry(_ country: VerifyKit.CountryCodePickerViewController.Country)
+  @_Concurrency.MainActor @preconcurrency public func countryCodePickerViewControllerDidPickCountry(_ country: VerifyKit.CountryCodePickerViewController.Country)
 }
 extension VerifyKit.PhoneNumberTextField {
-  @_Concurrency.MainActor(unsafe) @objc override dynamic open func textRect(forBounds bounds: CoreFoundation.CGRect) -> CoreFoundation.CGRect
-  @_Concurrency.MainActor(unsafe) @objc override dynamic open func editingRect(forBounds bounds: CoreFoundation.CGRect) -> CoreFoundation.CGRect
-  @_Concurrency.MainActor(unsafe) @objc override dynamic open func clearButtonRect(forBounds bounds: CoreFoundation.CGRect) -> CoreFoundation.CGRect
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func textRect(forBounds bounds: CoreFoundation.CGRect) -> CoreFoundation.CGRect
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func editingRect(forBounds bounds: CoreFoundation.CGRect) -> CoreFoundation.CGRect
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func clearButtonRect(forBounds bounds: CoreFoundation.CGRect) -> CoreFoundation.CGRect
 }
 public enum PKCS7 {
 }
